@@ -7,7 +7,7 @@ const Main: React.FC = () => {
   return (
     <Container>
       <Header />
-      <hr/>
+      <hr />
       <PostList />
     </Container>
   );

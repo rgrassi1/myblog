@@ -31,7 +31,7 @@ export const Container = styled.header`
   > ul > li > a {
     background: #444;
     border-radius: 4px;
-    padding: 12px 16px;
+    padding: 12px 18px;
     color: #fff;
     cursor: pointer;
     text-decoration: none;
