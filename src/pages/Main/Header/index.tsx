@@ -1,11 +1,11 @@
 import React from 'react';
-import { FiTwitter } from 'react-icons/fi';
+import { FiTwitter, FiLinkedin } from 'react-icons/fi';
 import { Container } from './styles';
 
 const Header: React.FC = () => {
   return (
     <Container>
-      <h1>John Doe</h1>
+      <h1>Rodrigo Grassi</h1>
       <p>
         Software Developer from the Brazil, focusing his efforts on creating
         useful software products. One day he hopes to make something that really
@@ -19,7 +19,15 @@ const Header: React.FC = () => {
             rel="noopener noreferrer"
           >
             <FiTwitter size={24} />
-            Follow
+          </a>
+        </li>
+        <li>
+          <a
+            href="https://www.linkedin.com/in/rgrassi1983/"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <FiLinkedin size={24} />
           </a>
         </li>
       </ul>

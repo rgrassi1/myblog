@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, ChangeEvent } from 'react';
 import { FiSliders } from 'react-icons/fi';
 import { Container, DropDownButton } from './styles';
 
@@ -9,13 +9,29 @@ interface IAuthor {
 
 interface IDropDownProperties {
   authors: IAuthor[];
+  order: number;
+  setAuthorId(id: number): void;
+  setOrder(order: number): void;
 }
 
-const DropDown: React.FC<IDropDownProperties> = ({ authors }) => {
+const DropDown: React.FC<IDropDownProperties> = ({
+  authors,
+  order,
+  setAuthorId,
+  setOrder,
+}) => {
   const [visible, setVisible] = useState(false);
 
   function handleToggleVisible() {
     setVisible(!visible);
+  }
+
+  function handleAuthorChange(event: ChangeEvent<HTMLSelectElement>) {
+    setAuthorId(Number(event.target.value));
+  }
+
+  function handleOrderChange() {
+    setOrder(1 - order);
   }
 
   return (
@@ -25,7 +41,7 @@ const DropDown: React.FC<IDropDownProperties> = ({ authors }) => {
       </DropDownButton>
       <Container visible={visible}>
         <p>Author:</p>
-        <select id="author">
+        <select onChange={handleAuthorChange}>
           <option value={0}>Everyone</option>
           {authors.map((author) => (
             <option key={author.id} value={author.id}>
@@ -33,7 +49,9 @@ const DropDown: React.FC<IDropDownProperties> = ({ authors }) => {
             </option>
           ))}
         </select>
-        <button type="button">ascending order</button>
+        <button type="button" onClick={handleOrderChange}>
+          {order === 0 ? 'ascending order' : 'descending order'}
+        </button>
       </Container>
     </React.Fragment>
   );

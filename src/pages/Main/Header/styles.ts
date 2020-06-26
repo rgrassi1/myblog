@@ -28,6 +28,10 @@ export const Container = styled.header`
     display: inline-block;
   }
 
+  > ul > li + li {
+    margin-left: 8px;
+  }
+
   > ul > li > a {
     background: #444;
     border-radius: 4px;
@@ -51,6 +55,5 @@ export const Container = styled.header`
 
   > ul > li > a > svg {
     vertical-align: middle;
-    margin-right: 8px;
   }
 `;

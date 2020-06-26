@@ -26,13 +26,9 @@ interface IPostListProperties {
   authors: IAuthor[];
 }
 
-type IOrder = {
-  type: 'asc' | 'desc';
-};
-
 const PostList: React.FC<IPostListProperties> = ({ posts, authors }) => {
   const [authorId, setAuthorId] = useState(0);
-  const [order, setOrder] = useState<IOrder>({ type: 'desc' });
+  const [order, setOrder] = useState(0);
 
   const formattedPosts = useMemo<IPost[]>(() => {
     return posts
@@ -40,7 +36,7 @@ const PostList: React.FC<IPostListProperties> = ({ posts, authors }) => {
       .sort((curr, next) => {
         const currDate = new Date(curr.metadata.publishedAt);
         const nextDate = new Date(next.metadata.publishedAt);
-        if (order.type === 'desc') {
+        if (order === 0) {
           return isAfter(currDate, nextDate) ? -1 : 1;
         }
         return isAfter(currDate, nextDate) ? 1 : -1;
@@ -54,7 +50,12 @@ const PostList: React.FC<IPostListProperties> = ({ posts, authors }) => {
           <FiList />
           List of Posts
         </h2>
-        <DropDown authors={authors} />
+        <DropDown
+          authors={authors}
+          order={order}
+          setAuthorId={setAuthorId}
+          setOrder={setOrder}
+        />
       </div>
       <ul>
         {formattedPosts.map((post) => (
