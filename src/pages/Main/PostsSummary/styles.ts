@@ -1,41 +1,20 @@
 import styled from 'styled-components';
 
 export const Container = styled.section`
-  > div {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0 32px;
-
-    position: relative;
-  }
-
-  > div > h2 {
-    display: flex;
-    align-items: center;
-
+  > h2 {
     color: #444;
     font-size: 3em;
     font-weight: 400;
     text-transform: uppercase;
+    padding: 0 32px;
     letter-spacing: 3px;
     line-height: 38px;
   }
 
-  > div > h2 > svg {
+  > h2 > svg {
+    vertical-align: -10%;
     margin-right: 8px;
   }
-
-  /* div > button {
-    background: transparent;
-    border: 0;
-    padding: 4px;
-    display: block;
-  }
-
-  > div > button > svg {
-    vertical-align: middle;
-  } */
 
   > ul {
     margin-top: 32px;
@@ -63,6 +42,7 @@ export const Container = styled.section`
     text-decoration: none;
     color: #aaa;
     font-size: 1.5em;
+    cursor: unset;
   }
 
   > ul > li > h3 > a:hover {

@@ -1,9 +1,8 @@
-import React, { useState, useEffect, useMemo } from 'react';
-import { FiEdit } from 'react-icons/fi';
-import { uuid } from 'uuidv4';
-import { format, isAfter } from 'date-fns';
-import api from '../../../services/api';
+import React, { useState, useMemo } from 'react';
+import { FiList } from 'react-icons/fi';
+import { isAfter } from 'date-fns';
 import { Container } from './styles';
+import DropDown from '../DropDown';
 
 interface IAuthor {
   id: number;
@@ -15,68 +14,55 @@ interface IPost {
   title: string;
   body: string;
   author: IAuthor | undefined;
-  dateFormatted: string;
+  dateFormated: string;
   metadata: {
     publishedAt: string;
     authorId: number;
   };
 }
 
-const PostList: React.FC = () => {
-  const [posts, setPosts] = useState<IPost[]>([]);
-  const [authors, setAuthors] = useState<IAuthor[]>([]);
+interface IPostListProperties {
+  posts: IPost[];
+  authors: IAuthor[];
+}
 
-  useEffect(() => {
-    Promise.all([
-      api.get<IPost[]>('5be5e3fa2f000082000fc3f8'),
-      api.get<IAuthor[]>('5be5e3ae2f00005b000fc3f6'),
-    ])
-      .then(([postsResponse, authorsResponse]) => {
-        setAuthors(authorsResponse.data);
-        const formattedPosts = postsResponse.data
-          .map((post) => {
-            return {
-              ...post,
-              id: uuid(),
-              author: authorsResponse.data.find(
-                (author) => author.id === post.metadata.authorId,
-              ),
-              dateFormatted: format(
-                new Date(post.metadata.publishedAt),
-                'dd/MM/yyyy HH:mm',
-              ),
-            };
-          })
-          .sort((curr, next) => {
-            const currDate = new Date(curr.metadata.publishedAt);
-            const nextDate = new Date(next.metadata.publishedAt);
-            return isAfter(currDate, nextDate) ? -1 : 1;
-          });
+type IOrder = {
+  type: 'asc' | 'desc';
+};
 
-        setPosts(formattedPosts);
-      })
-      .catch((err) => {
-        console.error(err);
+const PostList: React.FC<IPostListProperties> = ({ posts, authors }) => {
+  const [authorId, setAuthorId] = useState(0);
+  const [order, setOrder] = useState<IOrder>({ type: 'desc' });
+
+  const formattedPosts = useMemo<IPost[]>(() => {
+    return posts
+      .filter((post) => post.metadata.authorId === authorId || !authorId)
+      .sort((curr, next) => {
+        const currDate = new Date(curr.metadata.publishedAt);
+        const nextDate = new Date(next.metadata.publishedAt);
+        if (order.type === 'desc') {
+          return isAfter(currDate, nextDate) ? -1 : 1;
+        }
+        return isAfter(currDate, nextDate) ? 1 : -1;
       });
-  }, []);
-
-  const formattedPosts = useMemo(() => {
-
-  }, [posts]);
+  }, [posts, order, authorId]);
 
   return (
     <Container>
-      <h2>
-        <FiEdit />
-        Featured Posts
-      </h2>
+      <div>
+        <h2>
+          <FiList />
+          List of Posts
+        </h2>
+        <DropDown authors={authors} />
+      </div>
       <ul>
-        {posts.map((post) => (
+        {formattedPosts.map((post) => (
           <li key={post.id}>
             <h3>
               <a href="https://www.google.com">{post.title}</a>
             </h3>
-            <p>{post.dateFormatted}</p>
+            <p>{post.dateFormated}</p>
           </li>
         ))}
       </ul>
