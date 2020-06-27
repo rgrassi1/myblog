@@ -17,7 +17,14 @@ interface IPost {
   title: string;
   body: string;
   author: IAuthor | undefined;
-  dateFormated: string;
+  publishedAt: string;
+  dateFormatted: string;
+}
+
+interface IRequestedPost {
+  id: string;
+  title: string;
+  body: string;
   metadata: {
     publishedAt: string;
     authorId: number;
@@ -30,7 +37,7 @@ const Main: React.FC = () => {
 
   useEffect(() => {
     Promise.all([
-      api.get<IPost[]>('5be5e3fa2f000082000fc3f8'),
+      api.get<IRequestedPost[]>('5be5e3fa2f000082000fc3f8'),
       api.get<IAuthor[]>('5be5e3ae2f00005b000fc3f6'),
     ])
       .then(([postsResponse, authorsResponse]) => {
@@ -38,20 +45,22 @@ const Main: React.FC = () => {
         const formattedPosts = postsResponse.data
           .map((post) => {
             return {
-              ...post,
               id: uuid(),
+              title: post.title,
+              body: post.body,
               author: authorsResponse.data.find(
                 (author) => author.id === post.metadata.authorId,
               ),
+              publishedAt: post.metadata.publishedAt,
               dateFormatted: format(
                 new Date(post.metadata.publishedAt),
-                'dd/MM/yyyy HH:mm',
+                'dd/MM/yyyy HH:mm:ss',
               ),
             };
           })
           .sort((curr, next) => {
-            const currDate = new Date(curr.metadata.publishedAt);
-            const nextDate = new Date(next.metadata.publishedAt);
+            const currDate = new Date(curr.publishedAt);
+            const nextDate = new Date(next.publishedAt);
             return isAfter(currDate, nextDate) ? -1 : 1;
           });
 

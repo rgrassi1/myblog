@@ -1,5 +1,6 @@
 import React, { useState, ChangeEvent } from 'react';
 import { FiSliders } from 'react-icons/fi';
+import { MdKeyboardArrowDown, MdKeyboardArrowUp } from 'react-icons/md';
 import { Container, DropDownButton } from './styles';
 
 interface IAuthor {
@@ -7,11 +8,20 @@ interface IAuthor {
   name: string;
 }
 
+type Order = {
+  type: 'asc' | 'desc';
+};
+
+const icons = {
+  asc: <MdKeyboardArrowUp size={16} />,
+  desc: <MdKeyboardArrowDown size={16} />,
+};
+
 interface IDropDownProperties {
   authors: IAuthor[];
-  order: number;
+  order: Order;
   setAuthorId(id: number): void;
-  setOrder(order: number): void;
+  setOrder(order: Order): void;
 }
 
 const DropDown: React.FC<IDropDownProperties> = ({
@@ -31,7 +41,8 @@ const DropDown: React.FC<IDropDownProperties> = ({
   }
 
   function handleOrderChange() {
-    setOrder(1 - order);
+    // setOrder(1 - order);
+    setOrder({ ...order, type: order.type === 'asc' ? 'desc' : 'asc' });
   }
 
   return (
@@ -40,7 +51,7 @@ const DropDown: React.FC<IDropDownProperties> = ({
         <FiSliders color="#c66" size={20} />
       </DropDownButton>
       <Container visible={visible}>
-        <p>Author:</p>
+        <p>Author</p>
         <select onChange={handleAuthorChange}>
           <option value={0}>Everyone</option>
           {authors.map((author) => (
@@ -50,7 +61,10 @@ const DropDown: React.FC<IDropDownProperties> = ({
           ))}
         </select>
         <button type="button" onClick={handleOrderChange}>
-          {order === 0 ? 'ascending order' : 'descending order'}
+          <span>
+            {icons[order.type || 'asc']}
+            order by date
+          </span>
         </button>
       </Container>
     </React.Fragment>

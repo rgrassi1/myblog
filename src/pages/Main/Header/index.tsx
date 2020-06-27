@@ -33,6 +33,6 @@ const Header: React.FC = () => {
       </ul>
     </Container>
   );
-}
+};
 
 export default Header;

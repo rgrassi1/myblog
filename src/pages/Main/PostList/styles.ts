@@ -26,17 +26,6 @@ export const Container = styled.section`
     margin-right: 8px;
   }
 
-  /* div > button {
-    background: transparent;
-    border: 0;
-    padding: 4px;
-    display: block;
-  }
-
-  > div > button > svg {
-    vertical-align: middle;
-  } */
-
   > ul {
     margin-top: 32px;
     border-top: 1px solid rgba(0, 0, 0, 0.1);
@@ -83,5 +72,11 @@ export const Container = styled.section`
     font-size: 1.75em;
     color: #444;
     font-weight: 400;
+  }
+
+  > ul > li > p + p {
+    margin-top: 16px;
+    display: flex;
+    justify-content: space-between;
   }
 `;

@@ -14,11 +14,8 @@ interface IPost {
   title: string;
   body: string;
   author: IAuthor | undefined;
-  dateFormated: string;
-  metadata: {
-    publishedAt: string;
-    authorId: number;
-  };
+  publishedAt: string;
+  dateFormatted: string;
 }
 
 interface IPostListProperties {
@@ -26,17 +23,21 @@ interface IPostListProperties {
   authors: IAuthor[];
 }
 
+type Order = {
+  type: 'asc' | 'desc';
+};
+
 const PostList: React.FC<IPostListProperties> = ({ posts, authors }) => {
   const [authorId, setAuthorId] = useState(0);
-  const [order, setOrder] = useState(0);
+  const [order, setOrder] = useState<Order>({ type: 'desc' });
 
   const formattedPosts = useMemo<IPost[]>(() => {
     return posts
-      .filter((post) => post.metadata.authorId === authorId || !authorId)
+      .filter((post) => post.author?.id === authorId || !authorId)
       .sort((curr, next) => {
-        const currDate = new Date(curr.metadata.publishedAt);
-        const nextDate = new Date(next.metadata.publishedAt);
-        if (order === 0) {
+        const currDate = new Date(curr.publishedAt);
+        const nextDate = new Date(next.publishedAt);
+        if (order.type === 'desc') {
           return isAfter(currDate, nextDate) ? -1 : 1;
         }
         return isAfter(currDate, nextDate) ? 1 : -1;
@@ -61,9 +62,13 @@ const PostList: React.FC<IPostListProperties> = ({ posts, authors }) => {
         {formattedPosts.map((post) => (
           <li key={post.id}>
             <h3>
-              <a href="https://www.google.com">{post.title}</a>
+              <a href=".">{post.title}</a>
             </h3>
-            <p>{post.dateFormated}</p>
+            <p>{post.body}</p>
+            <p>
+              <span>{post.author?.name}</span>
+              <span>{post.dateFormatted}</span>
+            </p>
           </li>
         ))}
       </ul>

@@ -16,8 +16,37 @@ export const Container = styled.div<IContainerProps>`
   top: calc(100% + 16px);
   z-index: 1000;
 
+  > p {
+    font-size: 1.25em;
+    font-weight: 600;
+    margin-bottom: 2px;
+  }
+
+  > select {
+    width: 100%;
+  }
+
   > button {
     color: #fff;
+    background: transparent;
+    border: 0;
+    margin-top: 8px;
+  }
+
+  > button > span {
+    font-weight: 600;
+  }
+
+  > button > span > svg {
+    vertical-align: middle;
+  }
+
+  > select {
+    padding: 4px;
+    border-radius: 4px;
+    color: #444;
+    font-size: 1.25em;
+    font-weight: 600;
   }
 
   ::before {
