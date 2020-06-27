@@ -42,7 +42,6 @@ export const Container = styled.section`
     text-decoration: none;
     color: #aaa;
     font-size: 1.5em;
-    cursor: unset;
   }
 
   > ul > li > h3 > a:hover {

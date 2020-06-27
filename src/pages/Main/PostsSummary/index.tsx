@@ -37,7 +37,7 @@ const PostsSummary: React.FC<IPosts> = ({ posts }) => {
     <Container>
       <h2>
         <FiCalendar />
-        Summary Posts
+        Most Recent Posts
       </h2>
       <ul>
         {formattedPosts.map((post) => (

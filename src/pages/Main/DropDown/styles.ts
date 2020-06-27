@@ -68,6 +68,16 @@ export const DropDownButton = styled.button`
   padding: 4px;
   display: block;
   > svg {
+    color: #c66;
     vertical-align: middle;
+  }
+
+  &:hover {
+    background: #c66;
+    border-radius: 4px;
+  }
+
+  &:hover > svg {
+    color: #fff;
   }
 `;

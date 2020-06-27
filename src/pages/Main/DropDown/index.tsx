@@ -41,14 +41,13 @@ const DropDown: React.FC<IDropDownProperties> = ({
   }
 
   function handleOrderChange() {
-    // setOrder(1 - order);
     setOrder({ ...order, type: order.type === 'asc' ? 'desc' : 'asc' });
   }
 
   return (
     <React.Fragment>
       <DropDownButton type="button" onClick={handleToggleVisible}>
-        <FiSliders color="#c66" size={20} />
+        <FiSliders size={20} />
       </DropDownButton>
       <Container visible={visible}>
         <p>Author</p>
